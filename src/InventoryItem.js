@@ -1,21 +1,23 @@
 import "./App.css";
 import React from "react";
 import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux"
+import * as cart from "./redux/cart";
 
-function InventoryItem({ item, addToCart }) {
+function InventoryItem({ item }) {
+  const dispatch = useDispatch()
+
     return (
     <div className="inventory-item">
-      <p>{item.name}</p>
-      <p>{item.price}</p>
+      <p>Product: {item.name}</p>
+      <p>Price: ${item.price}</p>
       <div
         className="inventory-item-image-box"
         style={{ backgroundImage: `url(${item.image}` }}
       />
       <button
         className="btn"
-        onClick={() => {
-            addToCart(item.name);
-        }}
+        onClick={() => dispatch(cart.addToCartRedux(item))}
       >
         Add To Cart
       </button>
@@ -24,7 +26,6 @@ function InventoryItem({ item, addToCart }) {
 }
 
 InventoryItem.propTypes = {
-  addToCart: PropTypes.func,
   item: PropTypes.shape({
     name: PropTypes.string,
     price: PropTypes.number,
